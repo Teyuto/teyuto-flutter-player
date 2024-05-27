@@ -26,6 +26,11 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
   Map<String, double> TeyutoPlayerCurrentTimeValue = {};
   Map<String, double> TeyutoPlayerCurrentVolumeValue = {};
 
+  InAppWebViewSettings settings = InAppWebViewSettings(
+      mediaPlaybackRequiresUserGesture: false,
+      allowsInlineMediaPlayback: true,
+      iframeAllowFullscreen: true);
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +38,10 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
       print("Missing channel header");
       return;
     }
-    _initializePlayer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(
+          const Duration(milliseconds: 500), () => _initializePlayer());
+    });
   }
 
   void _initializePlayer() {
@@ -66,7 +74,7 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
 
     setState(() {
       _webViewController?.loadUrl(
-          urlRequest: URLRequest(url: Uri.parse(urlIframe)));
+          urlRequest: URLRequest(url: WebUri(urlIframe)));
     });
   }
 
@@ -74,6 +82,11 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
     if (message.isNotEmpty) {
       Map<String, dynamic> data = message[0] as Map<String, dynamic>;
       switch (data['type']) {
+        case 'timeupdate':
+          if (widget.onTimeUpdate != null) {
+            widget.onTimeUpdate!(data['values']['time']);
+          }
+          break;
         case 'currentTime':
           setState(() {
             TeyutoPlayerCurrentTimeValue[data['idVideo']] = data['value'];
@@ -102,13 +115,13 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
   // Metodd
   Future<void> play() async {
     await _webViewController?.evaluateJavascript(source: '''
-      window.postMessage(JSON.stringify({function: "play"}), "*");
+      window.postMessage({function: "play"}, "*");
     ''');
   }
 
   Future<void> pause() async {
     await _webViewController?.evaluateJavascript(source: '''
-      window.postMessage(JSON.stringify({function: "pause"}), "*");
+      window.postMessage({function: "pause"}, "*");
     ''');
   }
 
@@ -118,25 +131,25 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
 
   Future<void> setCurrentTime(double time) async {
     await _webViewController?.evaluateJavascript(source: '''
-      window.postMessage(JSON.stringify({function: "setCurrentTime", param: $time}), "*");
+      window.postMessage({function: "setCurrentTime", param: $time}, "*");
     ''');
   }
 
   Future<void> mute() async {
     await _webViewController?.evaluateJavascript(source: '''
-      window.postMessage(JSON.stringify({function: "mute"}), "*");
+      window.postMessage({function: "mute"}, "*");
     ''');
   }
 
   Future<void> unmute() async {
     await _webViewController?.evaluateJavascript(source: '''
-      window.postMessage(JSON.stringify({function: "unmute"}), "*");
+      window.postMessage({function: "unmute"}, "*");
     ''');
   }
 
   Future<void> setVolume(double volume) async {
     await _webViewController?.evaluateJavascript(source: '''
-      window.postMessage(JSON.stringify({function: "setVolume", param: $volume}), "*");
+      window.postMessage({function: "setVolume", param: $volume}, "*");
     ''');
   }
 
@@ -147,7 +160,8 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
   @override
   Widget build(BuildContext context) {
     return InAppWebView(
-      initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
+      initialSettings: settings,
+      initialUrlRequest: URLRequest(url: WebUri('about:blank')),
       onWebViewCreated: (controller) {
         _webViewController = controller;
       },
@@ -160,7 +174,12 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
             callback: (args) {
               _handleMessage(args);
             });
-        _initializePlayer();
+        //_initializePlayer();
+        controller.evaluateJavascript(source: '''
+          window.addEventListener("message", (event) => {
+            window.flutter_inappwebview.callHandler('messageHandler', JSON.parse(event.data));
+          }, false);
+        ''');
       },
     );
   }
