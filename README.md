@@ -1,45 +1,47 @@
-# Teyuto Player SDK
+[![badge](https://img.shields.io/twitter/follow/teyuto?style=social)](https://twitter.com/intent/follow?screen_name=teyuto) &nbsp; [![badge](https://img.shields.io/github/stars/Teyuto/teyuto-player-sdk?style=social)](https://github.com/Teyuto/teyuto-player-sdk)
+![](https://github.com/Teyuto/.github/blob/production/assets/img/banner.png)
+<h1 align="center">Teyuto Player SDK for React</h1>
 
-## Overview
+[Teyuto](https://teyuto.com) provides a seamless solution for managing all your video distribution needs. Whether you require video distribution in the cloud, on OTT platforms, storage, public OTT platform distribution, or secure intranet distribution, Teyuto puts everything at your fingertips, making the management of your video content effortless.
 
-The Teyuto Player SDK allows you to easily integrate the Teyuto video player into your Flutter applications. This guide provides an overview of how to set up and use the SDK in your project.
+# Teyuto Flutter Player
 
-## Features
+A Flutter plugin for embedding Teyuto videos in your applications.
 
-- Embed Teyuto videos into your Flutter app.
-- Control playback (play, pause).
-- Listen to playback events (time update, volume change).
-- Customize player options.
+## Getting Started
+
+This package allows you to embed and control Teyuto videos within your Flutter application. It provides functionalities such as play, pause, seek, and volume control, along with event listeners for playback updates.
 
 ## Installation
 
-To use the Teyuto Player SDK, add the following dependencies to your `pubspec.yaml` file:
+Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_inappwebview: ^5.3.2
+  teyuto_player: ^1.0.1
+```
+
+Then run the following command:
+
+```bash
+flutter pub get
 ```
 
 ## Usage
 
-### Import the Teyuto Player
-
-First, import the necessary packages and the `TeyutoPlayer` widget:
-
-```dart
-import 'package:flutter/material.dart';
-import 'TeyutoPlayer.dart';
-```
-
 ### Basic Integration
 
-Here's a basic example of how to integrate the Teyuto Player into your app:
+Import the package in your Dart file:
+
+```dart
+import 'package:teyuto_player/TeyutoPlayer.dart';
+```
+
+Use the `TeyutoPlayer` widget in your widget tree:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'TeyutoPlayer.dart';
+import 'package:teyuto_player/TeyutoPlayer.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -69,13 +71,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       time = _time;
     });
-  }
-
-  void goToTime(double time) async {
-    final TeyutoPlayerState? playerState = _teyutoPlayerKey.currentState;
-    if (playerState != null) {
-      await playerState.setCurrentTime(time);
-    }
   }
 
   void playPlayer() {
@@ -165,7 +160,7 @@ void main() {
 
 ### Player Options
 
-You can customize the player by passing options in the `obj` parameter:
+Customize the player by passing options in the `obj` parameter:
 
 ```dart
 TeyutoPlayer(
@@ -179,16 +174,24 @@ TeyutoPlayer(
       // Add more options as needed
     }
   },
-  onPlay: handlePlay,
-  onPause: handlePause,
-  onTimeUpdate: (_time) => handleTimeUpdate(_time),
-  onVolumeChange: (_volume) => handleVolumeChange(_volume),
+  onPlay: () {
+    print("Video is playing");
+  },
+  onPause: () {
+    print("Video is paused");
+  },
+  onTimeUpdate: (double time) {
+    print("Current time: $time");
+  },
+  onVolumeChange: (double volume) {
+    print("Current volume: $volume");
+  },
 )
 ```
 
 ### Controlling the Player
 
-You can control the player programmatically using the provided methods:
+Programmatically control the player using the provided methods:
 
 - `play()`
 - `pause()`
@@ -225,7 +228,7 @@ void pausePlayer() {
 
 ### Event Handling
 
-You can handle various player events using callbacks:
+Handle various player events using callbacks:
 
 ```dart
 TeyutoPlayer(
@@ -250,6 +253,10 @@ TeyutoPlayer(
   },
 )
 ```
+
+## Additional Information
+
+For more information, visit the [pub.dev page for Teyuto Player](https://pub.dev/publishers/teyuto.com/packages).
 
 ## License
 
