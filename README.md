@@ -1,12 +1,10 @@
 [![badge](https://img.shields.io/twitter/follow/teyuto?style=social)](https://twitter.com/intent/follow?screen_name=teyuto) &nbsp; [![badge](https://img.shields.io/github/stars/Teyuto/teyuto-player-sdk?style=social)](https://github.com/Teyuto/teyuto-player-sdk)
 ![](https://github.com/Teyuto/.github/blob/production/assets/img/banner.png)
-<h1 align="center">Teyuto Player SDK for React</h1>
+<h1 align="center">Teyuto Player SDK for Flutter</h1>
 
 [Teyuto](https://teyuto.com) provides a seamless solution for managing all your video distribution needs. Whether you require video distribution in the cloud, on OTT platforms, storage, public OTT platform distribution, or secure intranet distribution, Teyuto puts everything at your fingertips, making the management of your video content effortless.
 
-# Teyuto Flutter Player
-
-A Flutter plugin for embedding Teyuto videos in your applications.
+`Teyuto Flutter Player` is a Flutter library that allows you to embed a Teyuto Video Player in a Flutter app.
 
 ## Getting Started
 
