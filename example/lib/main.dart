@@ -9,6 +9,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GlobalKey<TeyutoPlayerState> _teyutoPlayerKey = GlobalKey();
   bool playing = false;
+  double? time;
 
   void handlePlay() {
     print("Video is playing");
@@ -21,6 +22,12 @@ class _MyAppState extends State<MyApp> {
     print("Video is paused");
     setState(() {
       playing = false;
+    });
+  }
+
+  void handleTimeUpdate(double _time) {
+    setState(() {
+      time = _time;
     });
   }
 
@@ -58,18 +65,40 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Teyuto Player SDK Example'),
         ),
-        body: Center(
-          child: TeyutoPlayer(
-            key: _teyutoPlayerKey,
-            obj: {
-              'id': '46760',
-              'channel':
-                  '30Y8zKKY9H3IUaImUidzCqa5852a1cead3fb2b2ef79cf6baf04909',
-              'options': {'autoplay': 'on'}
-            },
-            onPlay: handlePlay,
-            onPause: handlePause,
-          ),
+        body: Stack(
+          children: [
+            Center(
+              child: TeyutoPlayer(
+                key: _teyutoPlayerKey,
+                obj: {
+                  'id': '46760',
+                  'channel':
+                      '30Y8zKKY9H3IUaImUidzCqa5852a1cead3fb2b2ef79cf6baf04909',
+                  'options': {'autoplay': 'on'}
+                },
+                onPlay: handlePlay,
+                onPause: handlePause,
+                onTimeUpdate: (_time) => handleTimeUpdate(_time),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  playing ? "Playing" : "Pause",
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                Text(
+                  time?.toString() ?? "",
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
