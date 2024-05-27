@@ -1,4 +1,4 @@
-name: Teyuto Player Example
+name: teyuto_player_example
 description: Teyuto Player Example
 
 version: 1.0.0+1
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_inappwebview: ^5.5.0
+  flutter_inappwebview: ^6.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
