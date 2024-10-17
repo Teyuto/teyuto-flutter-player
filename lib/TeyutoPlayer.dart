@@ -65,12 +65,13 @@ class TeyutoPlayerState extends State<TeyutoPlayer> {
       'lowLatency': 'off',
       'related': '',
       'relatedTags': '',
+      'adTag': '',
       'token': ''
     };
 
     final finalOptions = {...defaults, ...options};
     String urlIframe =
-        "https://teyuto.tv/video/player?w=$idVideo&cid=$channel&token=${finalOptions['token']}&auto=${finalOptions['autoplay']}&muted=${finalOptions['muted']}&controls=${finalOptions['controls']}&playbackRates=${finalOptions['playbackRates']}&qualitySelector=${finalOptions['qualitySelector']}&playerColor=${finalOptions['playerColor']}&loop=${finalOptions['loop']}&captions=${finalOptions['captions']}&seekButtons=${finalOptions['seekButtons']}&lowLatency=${finalOptions['lowLatency']}&related=${finalOptions['related']}&relatedTags=${finalOptions['relatedTags']}";
+        "https://teyuto.tv/video/player?w=$idVideo&cid=$channel&token=${finalOptions['token']}&auto=${finalOptions['autoplay']}&muted=${finalOptions['muted']}&controls=${finalOptions['controls']}&playbackRates=${finalOptions['playbackRates']}&qualitySelector=${finalOptions['qualitySelector']}&playerColor=${finalOptions['playerColor']}&loop=${finalOptions['loop']}&captions=${finalOptions['captions']}&seekButtons=${finalOptions['seekButtons']}&lowLatency=${finalOptions['lowLatency']}&related=${finalOptions['related']}&relatedTags=${finalOptions['relatedTags']}&adTag=${finalOptions['adTag']}";
 
     setState(() {
       _webViewController?.loadUrl(
