@@ -2,16 +2,16 @@ name: teyuto_player
 description: Flutter plugin for integrating the Teyuto video player within Flutter applications on Android, iOS, and web.
 repository: https://github.com/teyuto/teyuto-flutter-player
 issue_tracker: https://github.com/teyuto/teyuto-flutter-player/issues
-version: 1.0.11
+version: 1.0.12
 environment:
   sdk: '>=3.0.0 <4.0.0'
 dependencies:
   flutter:
     sdk: flutter
-  flutter_inappwebview: ^5.3.2
+  flutter_inappwebview: ^6.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^2.0.2
 flutter:
   uses-material-design: true
